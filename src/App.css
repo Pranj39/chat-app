@@ -1,4 +1,50 @@
-.messages{
+/* Container for all messages */
+.messages {
   display: flex;
   flex-direction: column;
+  gap: 10px;
+  padding: 20px;
+  max-width: 500px;
+  margin: auto;
+  background: linear-gradient(135deg, #ff6b6b, #f8c4c4);
+  border-radius: 12px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+  overflow-y: auto;
+}
+
+/* Individual message styling */
+.message {
+  max-width: 80%;
+  padding: 12px 18px;
+  border-radius: 18px;
+  font-size: 14px;
+  line-height: 1.5;
+  position: relative;
+  color: #fff;
+}
+
+/* Styling for messages sent by the user */
+.message.sent {
+  align-self: flex-end;
+  background-color: #00c6ff; /* Vibrant blue */
+  color: #fff;
+  border-bottom-right-radius: 0;
+  box-shadow: 0 3px 6px rgba(0, 198, 255, 0.3);
+}
+
+/* Styling for messages received from others */
+.message.received {
+  align-self: flex-start;
+  background-color: #ff9a9e; /* Vibrant pink */
+  color: #fff;
+  border-bottom-left-radius: 0;
+  box-shadow: 0 3px 6px rgba(255, 154, 158, 0.3);
+}
+
+/* Optional: timestamp styling for each message */
+.message .timestamp {
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.8);
+  text-align: right;
+  margin-top: 5px;
 }
