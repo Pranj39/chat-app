@@ -5,7 +5,7 @@ import { getAnalytics } from "firebase/analytics";
 import 'firebase/firestore';
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
 import "firebase/auth";
-import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup, updateCurrentUser, updateProfile } from "firebase/auth";
 import { collection, getDocs, query, getFirestore, QuerySnapshot, onSnapshot, orderBy, serverTimestamp, setDoc, doc, addDoc, limit, limitToLast } from "firebase/firestore";
 
 
@@ -59,6 +59,13 @@ function SignIn() {
   signInWithGoogle = () => {
     const provider = new GoogleAuthProvider()
     signInWithPopup(auth, provider)
+    
+if(auth.currentUser){
+  auth.currentUser.providerData.forEach((profile)=>{
+    updateProfile(auth.currentUser,{photoURL:profile.photoURL})
+  })
+
+}
 
   }
   return (
@@ -96,7 +103,8 @@ function ChatRoom() {
     await addDoc(collection(firestore, "messages"), {
       message: formValue,
       createdAt: serverTimestamp(),
-      uid
+      uid,
+      photoURL
     })
     scrollToView()
     
@@ -137,9 +145,10 @@ function ChatRoom() {
 
 }
 function ChatMessages(props) {
-  const { message, uid } = props.message
+  const { message, uid,photoURL } = props.message
   const messageClass = uid === auth.currentUser.uid ? 'sent' : 'received'
   return (<>
+      <img src={photoURL}></img>
     <div className={`message ${messageClass}`}>
       {message}
     </div>
