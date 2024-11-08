@@ -110,6 +110,7 @@ function ChatRoom() {
       let messagess = qSnapshot.docs.map((message) =>
         ({ ...message.data(), id: message.id })
       )
+      scrollToView()
       setMessages(messagess)
 
     })
