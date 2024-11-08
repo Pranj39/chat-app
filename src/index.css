@@ -68,7 +68,7 @@
   animation: fadeInSlideUp 0.3s 0.5s forwards;
 }
 .pfp.received{
-  align-self: flex-start;
+  align-self: flex-end;
   opacity: 0;
   animation: fadeInSlideUp 0.3s 0.5s forwards;
 }
