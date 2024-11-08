@@ -43,9 +43,27 @@
   transform: translateY(20px); 
   animation: fadeInSlideUp 0.3s forwards;
 }
-
-.message.sent {
+.message-wrapper.sent{
+  display: flex;
+  flex-direction: row;
   align-self: flex-end;
+
+}
+.message-wrapper.received{
+  display: flex;
+  flex-direction: row;
+  align-self: flex-start;
+
+}
+.pfp.sent{
+  align-self: flex-end;
+}
+.pfp.received{
+  align-self: flex-start;
+}
+.message.sent {
+  justify-self:right;
+  
   background-color: #0078d4; 
   color: white;
   border-bottom-right-radius: 0;
