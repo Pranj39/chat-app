@@ -6,7 +6,7 @@ import 'firebase/firestore';
 import { useAuthState, useSignInWithGoogle } from "react-firebase-hooks/auth"
 import "firebase/auth";
 import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
-import { collection, getDocs, query, getFirestore, QuerySnapshot, onSnapshot, orderBy, serverTimestamp, setDoc, doc, addDoc } from "firebase/firestore";
+import { collection, getDocs, query, getFirestore, QuerySnapshot, onSnapshot, orderBy, serverTimestamp, setDoc, doc, addDoc, limit, limitToLast } from "firebase/firestore";
 
 
 const firebaseConfig = {
@@ -80,29 +80,31 @@ function ChatRoom() {
   useEffect(() => {
     fetchMessages()
   }, []);
-  useEffect(()=>(scrollToView),[])
 
   const scrollToView = ()=>{
     console.log(dummy)
-    dummy.current.scrollIntoView({behavior:'smooth', block:'center'})
+    if(dummy.current){
+
+      dummy.current.scrollIntoView({behavior:'smooth', block:'center'})
+    }
     
   }
   const sendMessage = async (e) => {
     e.preventDefault()
     setFormValue('')
-    scrollToView()
     const { uid, photoURL } = auth.currentUser
     await addDoc(collection(firestore, "messages"), {
       message: formValue,
       createdAt: serverTimestamp(),
       uid
     })
-
+    scrollToView()
+    
   }
 
-  const fetchMessages = async () => {
+  const fetchMessages = ()=>{
     const collection_ = collection(firestore, "messages")
-    const query_ = query(collection_, orderBy("createdAt"))
+    const query_ = query(collection_, orderBy("createdAt"), limitToLast(25))
     onSnapshot(query_, async () => {
       const qSnapshot = await getDocs(query_)
       let messagess = qSnapshot.docs.map((message) =>
